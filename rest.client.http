@@ -1,0 +1,119 @@
+# Necessário instalar a extensão do VSCode "REST Client".
+# Substituir a porta de "localhost:3000" pela porta setada no ".env".
+# Substituir <JWT_TOKEN> pelos tokens JWT válidos para autenticação.
+# Substituir {userId}, {restaurantId}, {menuId}, e {itemId} pelos IDs desejados.
+
+########################################################
+######### USUÁRIO
+
+### Criação de Usuário
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "phone": "53991855620"
+}
+
+### Atualização de Usuário
+PUT http://localhost:3000/users/{userId}
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "name": "John Doe Updated",
+  "phone": "11999859120"
+}
+
+### Visualização de Usuário
+GET http://localhost:3000/users/{userId}
+Authorization: Bearer <JWT_TOKEN>
+
+### Deletar Usuário
+DELETE http://localhost:3000/users/{userId}
+Authorization: Bearer <JWT_TOKEN>
+
+########################################################
+######### RESTAURANTE
+
+### Criação de Restaurante
+POST http://localhost:3000/restaurants
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "name": "The Great Restaurant",
+  "address": "123 Delicious Street",
+  "description": "A great place to eat.",
+  "openingHours": "9 AM - 10 PM"
+}
+
+### Atualização de Restaurante
+PUT http://localhost:3000/restaurants/{restaurantId}
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "name": "The Greatest Restaurant",
+  "description": "An even better place to eat."
+}
+
+### Visualização de Restaurante
+GET http://localhost:3000/restaurants/{restaurantId}
+Authorization: Bearer <JWT_TOKEN>
+
+### Deletar Restaurante
+DELETE http://localhost:3000/restaurants/{restaurantId}
+Authorization: Bearer <JWT_TOKEN>
+
+### Compartilhar Restaurante (Adicionar Editor)
+POST http://localhost:3000/restaurants/{restaurantId}/editors
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "editorId": "{editorUserId}"
+}
+
+########################################################
+######### MENU
+
+### Criação de Menu
+POST http://localhost:3000/menus
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "name": "Dinner Menu",
+  "description": "Menu for dinner.",
+  "category": "MAIN_COURSE",
+  "restaurantId": "{restaurantId}"
+}
+
+
+### Atualização de Menu
+PUT http://localhost:3000/menus/{menuId}
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+
+{
+  "name": "Lunch Menu",
+  "description": "Menu for lunch."
+}
+
+### Visualização de Menu
+GET http://localhost:3000/menus/{menuId}
+Authorization: Bearer <JWT_TOKEN>
+
+### Deletar Menu
+DELETE http://localhost:3000/menus/{menuId}
+Authorization: Bearer <JWT_TOKEN>
+
+########################################################
+######### LOG
+
+### Visualização de Logs de Atividade
+GET http://localhost:3000/logs
+Authorization: Bearer <JWT_TOKEN>
