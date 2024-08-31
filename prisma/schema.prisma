@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String          @id @default(uuid())
+  name                  String
+  email                 String          @unique
+  password              String
+  phone                 String?
+  restaurants           Restaurant[]
+  editableRestaurants   Restaurant[]    @relation("EditorRestaurants")
+  logs                  Log[]
+}
+
+model Restaurant {
+  id            String      @id @default(uuid())
+  name          String      @unique
+  address       String
+  description   String?
+  openingHours  String
+  owner         User        @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  menus         Menu[]
+  editors       User[]      @relation("EditorRestaurants")
+}
+
+model Menu {
+  id            String      @id @default(uuid())
+  name          String
+  description   String?
+  category      MenuCategory
+  restaurant    Restaurant  @relation(fields: [restaurantId], references: [id])
+  restaurantId  String      @unique 
+  items         Item[]
+}
+
+enum MenuCategory {
+  APPETIZER
+  MAIN_COURSE
+  DESSERT
+  BEVERAGE
+}
+
+model Item {
+  id            String      @id @default(uuid())
+  name          String
+  description   String?
+  images        String[]
+  menu          Menu        @relation(fields: [menuId], references: [id])
+  menuId        String      @unique 
+}
+
+model Log {
+  id            String      @id @default(uuid())
+  action        String
+  details       String
+  timestamp     DateTime    @default(now())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+}
+
